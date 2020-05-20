@@ -1,22 +1,23 @@
-<html>
-    <head>
-        <title>タスク詳細</title>
-    </head>
-    <body>
-        <table>
-            <tr>
-                <th>ID</th><th>タスク名</th>
-            </tr>
-            <tr>
-                <td>{{ $task->id }}</td>
-                <td>{{ $task->content }}</td>
-            </tr> 
-        </table>
-        <a href="/tasks/{{$task->id}}/edit">編集する</a>        
-        <form action="/tasks/{{$task->id}}" method="POST">
-             {{ csrf_field() }}
-             <input name="_method" type="hidden" value="DELETE">
-             <input type="submit" value="削除する">
-        </form>
-    </body>
-</html>
+@extends('layouts.app')
+
+@section('content')
+
+    <table>
+        <tr>
+            <th>ID</th><th>タスク名</th>
+        </tr>
+        <tr>
+            <td>{{ $task->id }}</td>
+            <td>{{ $task->content }}</td>
+        </tr> 
+    </table>
+    
+    {{-- メッセージ編集ページへのリンク --}}
+    {!! link_to_route('tasks.edit', 'このメッセージを編集', ['task' => $task->id], ['class' => 'btn btn-light']) !!}
+
+    {{-- メッセージ削除フォーム --}}
+    {!! Form::model($task, ['route' => ['tasks.destroy', $task->id], 'method' => 'delete']) !!}
+        {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}
+    {!! Form::close() !!}
+    
+@endsection

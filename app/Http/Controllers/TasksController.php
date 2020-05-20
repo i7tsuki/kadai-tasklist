@@ -27,8 +27,12 @@ class TasksController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('tasks.create');
+    {   
+        $task = new Task;
+        
+        return view('tasks.create', [
+                'task' => $task,
+        ]);
     }
 
     /**
@@ -44,7 +48,7 @@ class TasksController extends Controller
         $task->save();
         
         
-        return redirect('/tasks');        
+        return redirect('/');        
     }
 
     /**
@@ -90,7 +94,7 @@ class TasksController extends Controller
         $task->content = $request->content;
         $task->save();
         
-        return redirect('/tasks');
+        return redirect('/');
         
     }
 
@@ -105,6 +109,6 @@ class TasksController extends Controller
         $task = Task::find($id);
         $task->delete();
         
-        return redirect('/tasks');
+        return redirect('/');
     }
 }
