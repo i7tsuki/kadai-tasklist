@@ -78,9 +78,15 @@ class TasksController extends Controller
     {   
         $task = Task::find($id);
         
-        return view('tasks.show', [
-            'task' => $task,
-        ]);
+        // 認証済みユーザ（閲覧者）がそのタスクの所有者である場合
+        if (\Auth::id() === $task->user_id) {
+            return view('tasks.show', [
+                'task' => $task,
+            ]);
+            
+        } else {
+            return redirect('/');
+        }
     }
 
     /**
@@ -93,9 +99,15 @@ class TasksController extends Controller
     {
         $task = Task::find($id);
         
-        return view('tasks.edit', [
-            'task' => $task,
-        ]);
+        // 認証済みユーザ（閲覧者）がそのタスクの所有者である場合
+        if (\Auth::id() === $task->user_id) {
+            return view('tasks.edit', [
+                'task' => $task,
+            ]);
+            
+        } else {
+            return redirect('/');
+        }
     }
 
     /**
